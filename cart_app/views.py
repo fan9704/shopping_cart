@@ -60,3 +60,40 @@ def cart(request):
     grandtotal=total+100
     return render(request,"cart.html",locals())
     
+def addtocart1(request,ctype=None,productid=None):
+    global cartlist
+    if ctype=='add':
+        product=models.ProdeuctModel.objects.get(id=productid)
+        flag=True
+        for unit in cartlist:
+            if product.pname ==unit[0]:#product exist
+                unit[2]=str(int(unit[2])+1)#count++
+                unit[3]=str(int(unit[3])+product.pprice)#accumulate price
+                flag=False
+                break
+        if flag:
+            temlist=[]
+            temlist.append(product.pname)
+            temlist.append(str(product.pprice))
+            temlist.append("1")#temp quantity ==1
+            temlist.append(str(product.pprice))#total price
+            cartlist.append(temlist)
+        request.session['cartlist']=cartlist
+        return redirect('/cart/')
+    elif ctype=="update":
+        n=0
+        for unit in cartlist:
+            unit[2]=request.POST.get('qty'+str(n),'1')
+            unit[3]=str(int(unit[1])*int(unit[2]))#P*Q =total price
+            n+=1
+    elif ctype=="empty":
+        cartlist=[]
+        request.session['cartlist']=cartlist
+        return redirect('/index/')
+    elif ctype=='remove':
+        del cartlist[int(productid)]
+        request.session['cartlist']=cartlist
+        return redirect("/cart/")
+
+def cartorder(request):
+    pass
