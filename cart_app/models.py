@@ -2,7 +2,7 @@ from django.db import models
 from django.shortcuts import render
 
 # Create your models here.
-class ProdeuctModel(models.Model):
+class ProductModel(models.Model):
     pname=models.CharField(max_length=100,default='')
     pprice=models.IntegerField(default=0)
     pimages=models.CharField(max_length=100,default='')
@@ -23,7 +23,7 @@ class OrderModel(models.Model):
         return self.customname
 
 class DetailModel(models.Model):
-    dorder=models.ForeignKey('OrdersModel',on_delete=models.CASCADE)
+    dorder=models.ForeignKey('OrderModel',on_delete=models.CASCADE)
     pname=models.CharField(max_length=100,default='')
     unitprice=models.IntegerField(default=0)
     quantity=models.IntegerField(default=0)
