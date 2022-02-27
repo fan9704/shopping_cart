@@ -1,3 +1,4 @@
+
 from django.shortcuts import  render,redirect
 from email.mime.text import MIMEText
 from smtplib import SMTP,SMTPAuthenticationError,SMTPException
@@ -171,7 +172,7 @@ def cartordercheck(request):
         firstsearch=1
     else:
         order=models.OrderModel.objects.filter(id=orderid)
-        if order ==None or order.customemail!= customemail :
+        if order ==None or order.customemail != customemail :
             notfound=1
         else:
             details=models.DetailModel.objects.filter(dorder=order)
